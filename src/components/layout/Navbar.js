@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import classnames from 'classnames';
 
+import { withRouter } from 'react-router';
+import AuthService from '../service/AuthService';
+const Auth = new AuthService();
+
 class Navbar extends Component {
   constructor() {
     super();
@@ -13,6 +17,12 @@ class Navbar extends Component {
     const current = this.state.sideBarActive;
     this.setState({ sideBarActive: !current });
   };
+
+  onClickLogout = () => {
+    console.log('Navbar onClickLogout')
+    Auth.logout()
+    this.props.history.replace('/login')
+  }
 
   render() {
     return (
@@ -50,12 +60,7 @@ class Navbar extends Component {
               <a href="/" className="mobile-icon">
                 <i className="fas fa-file-invoice-dollar" />
               </a>
-              <a
-                href="#pageSubmenu"
-                data-toggle="collapse"
-                aria-expanded="false"
-                className="dropdown-toggle"
-              >
+              <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" className="dropdown-toggle">
                 <i className="fas fa-file-invoice-dollar" /> Invoices
               </a>
               <ul className="collapse list-unstyled" id="pageSubmenu">
@@ -68,6 +73,9 @@ class Navbar extends Component {
               </ul>
             </li>
           </ul>
+          <div id="sidebarLogout" className="text-center">
+            <button type="button" className="form-submit" onClick={this.onClickLogout}>Logout</button>
+          </div>
           <div
             id="sidebarCollapse"
             className="text-center"
@@ -79,4 +87,4 @@ class Navbar extends Component {
   }
 }
 
-export default Navbar;
+export default withRouter(Navbar);
